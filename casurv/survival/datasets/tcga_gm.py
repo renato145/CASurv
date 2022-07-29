@@ -21,7 +21,7 @@ def get_tcga_gm_df(path):
 def get_tcga_gm_dls(path, img_sz=None, batch_tfms=None, return_df=False, include_metadata=False,
                     load_ids=False, imagenet_normalize=True, images_dir='images', **kwargs):
     path = Path(path)
-    metadata_df = get_tcga_gm_df(path)
+    metadata_df = get_tcga_gm_df(path / 'all_dataset.csv')
     df = pd.DataFrame({'fp': get_image_files(path / images_dir)})
     df['id'] = df.fp.apply(lambda x: x.name[:12])
     df = df.merge(metadata_df, 'left', left_on='id', right_index=True)

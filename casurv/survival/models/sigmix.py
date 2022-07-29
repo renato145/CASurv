@@ -222,6 +222,7 @@ class ELRSigMixCallback(ELRCallback):
     def __init__(self, logits_layer, **kwargs):
         super().__init__(**kwargs)
         self.hook = hook_output(logits_layer, detach=False)
+        self.elr_reg = 0
 
     def after_pred(self):
         if self.training:
@@ -267,7 +268,7 @@ class ELRSigMixCALoss(SigMixCALoss):
 
 @patch
 @delegates(ELRSigMixLoss, but=['logits_layer', 'elr_cb'])
-def setup_sigmix_elr_loss(self: Learner, censor_aware=True, logits_layer=None, elr_alpha=1.0, elr_beta=0.3, **kwargs):
+def setup_sigmix_elr_loss(self: Learner, censor_aware=True, logits_layer=None, elr_alpha=1.0, elr_beta=0.5, **kwargs):
     "Setups SigMixLoss with ELR regularizer"
     logits_layer = ifnone(logits_layer, getattr(self.model, 'logits_layer', None))
     assert logits_layer is not None
@@ -384,7 +385,7 @@ class ELRPlusSigMixCALoss(Module):
 
 @patch
 @delegates(ELRPlusSigMixLoss, but=['logits_layer', 'elr_cb'])
-def setup_sigmix_elrplus_loss(self: Learner, model2, censor_aware=True, elr_alpha=1.0, elr_beta=0.3,
+def setup_sigmix_elrplus_loss(self: Learner, model2, censor_aware=True, elr_alpha=1.0, elr_beta=0.5,
                               elr_gamma=0.997, **kwargs):
     "Setups SigMixLoss with ELR+ regularizer"
     # ELRPlusModel duplicates both models for ema calcs

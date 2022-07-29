@@ -46,6 +46,7 @@ def get_nlst_regression_dls(path, csv_name, img_sz=224, batch_tfms=None, return_
 def get_nlst_dls(path=None, csv_name='data_splits.csv', img_sz=224, batch_tfms=None, return_df=False,
                  include_metadata=False, load_ids=False, is_hazard=False, imagenet_normalize=True,
                  metadata_cont=True, metadata_cat=True, **kwargs):
+    path = Path(path)
     df = get_nlst_df(path, csv_name)
 
     df = df.query('data_split != "test"').reset_index(drop=True)
