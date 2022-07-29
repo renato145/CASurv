@@ -1,10 +1,7 @@
 FROM pytorch/pytorch:1.9.0-cuda11.1-cudnn8-runtime
 
-# There is no docker image for pytorch 1.9.1 atm
-RUN conda install -y -c pytorch pytorch==1.9.1
-
 RUN conda install -y -c conda-forge mamba
-RUN mamba install -y -c fastchan fastai==2.5.2 jupyter paramiko
+RUN mamba install -y -c fastai fastai==2.4 jupyter paramiko
 RUN mamba install -y -c conda-forge hydra-core psycopg2 optuna optuna-dashboard
 
 # Install pysurvival

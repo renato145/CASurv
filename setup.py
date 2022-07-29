@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 requirements = [
-    "fastai=2.5.2",
+    "fastai==2.4",
 ]
 
 setuptools.setup(
